@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/SpinWidget/circle.png</file>
+        <file>images/SpinWidget/circle_dark.png</file>
+        <file>images/SpinWidget/circle_light.png</file>
+        <file>images/SpinWidget/scales.png</file>
+        <file>images/SpinWidget/scales_big.png</file>
+        <file>images/SpinWidget2/circle_dark.png</file>
+        <file>images/SpinWidget2/circle_light.png</file>
+        <file>images/SpinWidget2/scale.png</file>
+        <file>images/SpinWidget3/circle_dark.png</file>
+        <file>images/SpinWidget3/circle_light.png</file>
+        <file>images/SpinWidget3/scale_small.png</file>
+        <file>images/SpinWidget3/scale_large.png</file>
+        <file>images/SpinWidget3/scale_middle_inside.png</file>
+        <file>images/SpinWidget3/scale_middle_outside.png</file>
+        <file>images/bg.jpg</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>SpinWidget.qml</file>
+        <file>SpinWidget2.qml</file>
+        <file>SpinWidget3.qml</file>
+    </qresource>
+</RCC>
