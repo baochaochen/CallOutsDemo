@@ -2,8 +2,19 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>SpinWidget.qml</file>
-        <file>SpinWidget2.qml</file>
-        <file>SpinWidget3.qml</file>
+        <file>CallOut.qml</file>
+        <file>DotButton.qml</file>
+        <file>AdobeHeitiStd-Regular.otf</file>
+        <file>NumberCallOut.qml</file>
+        <file>ArrowButton.qml</file>
+        <file>images/rectangle.png</file>
+        <file>images/triangle.png</file>
+        <file>SquareButton.qml</file>
+        <file>DetailsCallOut.qml</file>
+        <file>images/1.jpg</file>
+        <file>images/2.jpg</file>
+        <file>images/3.jpg</file>
+        <file>images/bg.jpg</file>
+        <file>NotoSansHans-Regular.otf</file>
     </qresource>
 </RCC>

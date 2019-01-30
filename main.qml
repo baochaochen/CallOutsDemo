@@ -1,91 +1,227 @@
+/****************************************************************************
+**
+** 呼出式注解说明-演示
+**
+** 说明：
+** 以下展示三种CallOut样板。
+**
+** 作者： 陈宝超
+** 修改日期： 2018/1/12
+**
+****************************************************************************/
+
 import QtQuick 2.7
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.0
 
 ApplicationWindow {
     id: mainWindow
     visible: true
-    minimumWidth: 860
-    minimumHeight: 650
-    maximumWidth: 860
-    maximumHeight: 860
+    minimumWidth: 960
+    minimumHeight: 680
+    maximumWidth: 960
+    maximumHeight: 680
+    title: qsTr("CallOuts Demo")
     color: "#000000"
 
-    Image {
-        anchors.fill: parent
-        source: "qrc:/images/bg.jpg"
-        opacity: 0.1
-    }
+    property int loadIndex: 0
 
-    RowLayout {
-        anchors.fill: parent
-        spacing: 50
+    // 加载字体文件
+    FontLoader {id: localFont; source: "qrc:/NotoSansHans-Regular.otf"}
 
-        SpinWidget {
-            id: spinWidget
-            spinWidth: 300; spinHeight: 300
-            x: parent.width / 2 - spinWidth /2
-            y: parent.height / 2 - spinHeight /2 + 100
-            labelNum: 0
-            darkVal: 0
-        }
-
-        SpinWidget2 {
-            id: spinWidget2
-            spinWidth: 250; spinHeight: 250
-            x: parent.width / 2 - 400
-            y: parent.height / 2 - 300
-            labelNum: 0
-        }
-
-        SpinWidget3 {
-            id: spinWidget3
-            spinWidth: 200; spinHeight: 200
-            x: parent.width / 2 + 200
-            y: parent.height / 2 - 280
-            labelNum: 0
-        }
-    }
-
-    // 滑块
-    Slider {
-        id: slider
-        anchors.bottom: parent.bottom
+    Rectangle {
+        id: moveArea
         width: parent.width
-        from: 0
-        value: 0
-        to: 100
-        background: Rectangle {
-                 x: slider.leftPadding
-                 y: slider.topPadding + slider.availableHeight / 2 - height / 2
-                 implicitWidth: 200
-                 implicitHeight: 4
-                 width: slider.availableWidth
-                 height: implicitHeight
-                 radius: 2
-                 color: "#888888"
+        height: 540
+        anchors.top: parent.top
+        color: "transparent"
 
-                 Rectangle {
-                     width: slider.visualPosition * parent.width
-                     height: parent.height
-                     color: "#c66d1a"
-                     radius: 2
-                 }
-             }
+        Image {
+            id: backgroundImg
+            anchors.fill: parent
+            source: "qrc:/images/bg.jpg"
+            opacity: 0.3
+        }
 
-             handle: Rectangle {
-                 x: slider.leftPadding + slider.visualPosition * (slider.availableWidth - width)
-                 y: slider.topPadding + slider.availableHeight / 2 - height / 2
-                 implicitWidth: 16
-                 implicitHeight: 16
-                 radius: 8
-                 color: "#f6f6f6"
-                 border.color: slider.pressed ? "#c66d1a" : "#888888"
-             }
-        onValueChanged: {
-            spinWidget.labelNum = slider.value
-            spinWidget2.labelNum = slider.value
-            spinWidget3.labelNum = slider.value
+        Loader {
+            id: loader
+            x: mainWindow.width / 2
+            y: mainWindow.height / 2
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
+            onClicked: {
+                if (mouse.button == Qt.LeftButton && loadIndex == 1) {
+                    loader.sourceComponent = callOutComponent
+                }
+                else if (mouse.button == Qt.LeftButton && loadIndex == 2) {
+                    loader.sourceComponent = numberCallOutComponent
+                }
+                else if (mouse.button == Qt.LeftButton && loadIndex == 3) {
+                    loader.sourceComponent = detailsCallOutComponent
+                }
+                else if (mouse.button == Qt.RightButton) {
+                    loader.sourceComponent = undefined
+                }
+                loader.x = Qt.binding(function() {
+                    if (mouseX < moveArea.width)
+                        return mouseX
+                    else if (mouseX >= moveArea.width)
+                        return moveArea.width
+                    else
+                        return 0
+                })
+                loader.y = Qt.binding(function() {
+                    if (mouseY < moveArea.height)
+                        return mouseY
+                    else if (mouseY >= moveArea.height)
+                        return moveArea.height
+                    else
+                        return 0
+                })
+            }
         }
     }
+
+    Component {
+        id: callOutComponent
+        CallOut {
+            id: callOut
+
+            dotWidth: 18; dotHeight: 18
+            labelWidth: 210; labelHeight: 32
+            labelTextContent: "MICHAEL BLACK"
+            fontSize: 22; fontFamily: localFont.name
+        }
+    }
+    Component {
+        id: numberCallOutComponent
+        NumberCallOut {
+            id: numberCallOut
+            arrowWidth: 12; arrowHeight: 12
+            labelWidth: 48; labelHeight: 32
+            labelTextContent: "23"
+            fontSize: 22; fontFamily: localFont.name
+        }
+    }
+    Component {
+        id: detailsCallOutComponent
+        DetailsCallOut {
+            id: detailsCallOut
+            squareWidth: 12; squareHeight: 12
+            labelWidth: 180; labelHeight: 32
+            labelTextContent: "DETAIL INFO"
+            fontSize: 22; fontFamily: localFont.name
+        }
+    }
+
+   RowLayout {
+        spacing: 20
+        anchors.left: parent.left
+        anchors.leftMargin: 20
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 20
+
+        Rectangle {
+            id: button1
+            width: 120
+            height: 100
+            border.width: 5
+            border.color: "#5e5e5e"
+            smooth: true
+
+            Image {
+                anchors.fill: parent
+                anchors.margins: 5
+                source:  "qrc:/images/1.jpg"
+            }
+            MouseArea {
+                id: mouse1
+                anchors.fill: parent
+                hoverEnabled: true
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onClicked: {
+                    if (mouse.button == Qt.LeftButton)
+                    {
+//                        loader.sourceComponent = callOutComponent
+                        loadIndex = 1
+                        button1.border.color = "#0e7b96"
+                        button2.border.color = "#5e5e5e"
+                        button3.border.color = "#5e5e5e"
+                    }
+                    else if (mouse.button == Qt.RightButton)
+                    {
+
+                    }
+                }
+            }
+        }
+        Rectangle {
+            id: button2
+            width: 120
+            height: 100
+            border.width: 5
+            border.color: "#5e5e5e"
+            smooth: true
+
+            Image {
+                anchors.fill: parent
+                anchors.margins: 5
+                source:  "qrc:/images/2.jpg"
+            }
+            MouseArea {
+                id: mouse2
+                anchors.fill: parent
+                hoverEnabled: true
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onClicked:
+                    if (mouse.button == Qt.LeftButton)
+                    {
+                        loadIndex = 2
+                        button1.border.color = "#5e5e5e"
+                        button2.border.color = "#0e7b96"
+                        button3.border.color = "#5e5e5e"
+                    }
+                    else if (mouse.button == Qt.RightButton) {
+
+                    }
+            }
+        }
+        Rectangle {
+            id: button3
+            width: 120
+            height: 100
+            border.width: 5
+            border.color: "#5e5e5e"
+            smooth: true
+
+            Image {
+                anchors.fill: parent
+                anchors.margins: 5
+                source:  "qrc:/images/3.jpg"
+            }
+            MouseArea {
+                id: mouse3
+                anchors.fill: parent
+                hoverEnabled: true
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onClicked:
+                    if (mouse.button == Qt.LeftButton)
+                    {
+                        loadIndex = 3
+                        button1.border.color = "#5e5e5e"
+                        button2.border.color = "#5e5e5e"
+                        button3.border.color = "#0e7b96"
+                    }
+                    else if (mouse.button == Qt.RightButton) {
+
+                    }
+            }
+        }
+    }
+
 }
